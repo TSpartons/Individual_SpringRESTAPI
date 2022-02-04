@@ -45,13 +45,12 @@ public class FilmController {
             @RequestParam(required = false, value = "description") String description,
             @RequestParam(required = false, value = "minlength") Long minLength,
             @RequestParam(required = false, value = "maxlength") Long maxLength,
-            @RequestParam(required = false, value = "rating") String rating,
-            @RequestParam(required = false, value = "category") String category
+            @RequestParam(required = false, value = "rating") String rating
     ) throws ValidationException {
 
         List<EntityModel<FilmEntity>> films;
 
-        if(title == null && description == null && minLength == null && maxLength == null && rating == null && category == null) {
+        if(title == null && description == null && minLength == null && maxLength == null && rating == null) {
             films = filmRepository.findAll().stream() //
                     .map(assembler::toModel) //
                     .collect(Collectors.toList());
@@ -86,12 +85,6 @@ public class FilmController {
                     case MINLENGTH -> {for (FilmEntity film : filmRepository.findAll())if (film.getLength()>(long)value) currentlyFound.add(film); break;}
                     case MAXLENGTH -> {for (FilmEntity film : filmRepository.findAll())if (film.getLength()<(long)value) currentlyFound.add(film); break;}
                     case RATING -> {for (FilmEntity film : filmRepository.findAll())if (film.getRating().contains((String)value)) currentlyFound.add(film); break;}
-                    case CATEGORY -> {
-                        for(FilmCategoryEntity filmCategory : filmCategoryRepository.findAll())
-                            if(value == filmCategory.getCategoryId())
-                                currentlyFound.add(filmForCategory(filmCategory.getFilmId()));
-
-                    }
                 }
         else {
             switch (params) {

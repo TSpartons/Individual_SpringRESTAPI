@@ -5,8 +5,7 @@ public enum FilmParams {
     DESCRIPTION,
     MINLENGTH,
     MAXLENGTH,
-    RATING,
-    CATEGORY;
+    RATING;
 
     FilmParams(){}
 }
